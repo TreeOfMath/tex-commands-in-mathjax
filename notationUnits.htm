@@ -1,0 +1,1195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!--
+REVISION RECORD:
+March 25, 2011: fixed spacing issues |  | using correspondence from Davide Cervone
+March 6, 2011: file creation
+-->
+
+<head>
+
+<title>Syntax for TeX Commands in MathJax</title>
+
+<!-- see documentation: http://www.mathjax.org/docs/1.1/output.html -->
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" >
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="MathJax,TeX,LaTeX" />
+
+    <meta name="viewport" content="width=device-width,
+          initial-scale=1.0" />
+
+    <link rel="stylesheet" href="CSS_Style.css" />
+
+    <!-- Custom functions/variables for header, footer, web lesson needs -->
+    <script src="auxiliary.js"></script>
+
+    <!-- Load math/graphics -->
+    <script>
+         document.write(loadMathJax());
+    </script>
+</head>
+
+<body>
+
+<!-- TeX definitions -->
+$
+\def\mark{\rlap{\normalsize\textstyle |}\kern 1px}
+$
+
+<h1>Syntax for $\rm\TeX$ Commands available in MathJax</h1>
+
+<p>
+The following syntax is used in <a href="TeXSyntax.htm">TeX Commands available in MathJax</a>:
+</p>
+
+<ul>
+<li style="margin-bottom:10px;">ARGUMENTS:<br />
+Arguments are denoted by #1, #2, #3, etc.<br />
+Multi-token arguments should be enclosed in (curly) braces: &lsquo; { } &rsquo;
+</li>
+<li>GROUPING CONSTRUCTS:<br />
+There are two basic grouping constructs that use braces;<br />
+I refer to them as &lsquo;arguments&rsquo; versus &lsquo;braced groups&rsquo;.<br />
+If you're not aware which construct is in force, then you can get unexpected results.<br />
+<a href="TeXSyntax.htm#braces">These examples illustrate the difference.</a>
+</li>
+<li>DIMENSIONS:<br />
+<a name="dimen"></a>
+&lang;dimen&rang; denotes:<br />
+&lang;optional sign&rang;&lang;number&rang;&lang;unit&rang;<br />
+Examples: &nbsp; <tt>-5pt</tt> &nbsp; or &nbsp; <tt>-5 pt</tt> &nbsp; or &nbsp; <tt>3.5pt</tt><br />
+<a href="#dimensionUnits">Click here for a table of dimension units</a>
+</li>
+
+<li><a name="CLASS">CLASS INFORMATION</a>:<br />
+Math operators are divided into several distinct classes,
+which control the spacing between elements in the typeset expression.<br />
+For example, REL uses a little more space than BIN.
+<ul style="margin-top:7px;">
+<li>
+<a name="ORD">ORD</a>: &nbsp; an &lsquo;ordinary&rsquo; item, like a variable name or Greek letter
+</li>
+<li>
+<a name="OP">OP</a>: &nbsp; a &lsquo;big operator&rsquo;,
+usually having moveable limits (though not 
+always)<br /> and different sizes for display and in-line modes (though 
+not always)<br />
+<a href="#opDiffDisplays">Click here for a table of Big Operators classifying mode behavior</a>
+</li>
+<li>
+<a name="BIN">BIN</a>: &nbsp; a &lsquo;binary operator&rsquo; like $\,+\,$ and $\,-\,$
+</li>
+<li>
+<a name="REL">REL</a>: &nbsp; a &lsquo;binary relation&rsquo; like $\, < \,$ and $\,\le\,$
+</li>
+<li>
+<a name="OPEN">OPEN</a>: &nbsp; an &lsquo;opening delimiter&rsquo; like $\,($
+</li>
+<li>
+<a name="CLOSE">CLOSE</a>: &nbsp; a &lsquo;closing delimiter&rsquo; like $\,)\,$
+</li>
+<li>
+<a name="PUNCT">PUNCT</a>: &nbsp; a &lsquo;punctuation&rsquo; like $\,\colon$
+</li>
+<li>
+<a name="INNER">INNER</a>: &nbsp; a special class used for fractions and some other things
+</li>
+</ul>
+</li>
+
+<li>
+<a name="DELIMITERS">DELIMITERS</a>:<br />
+Delimiters are symbols used to enclose expressions (e.g., parentheses, brackets, and braces)<br />
+or used as operators (e.g., vertical lines for absolute value).<br />
+In MathJax, delimiters can be of class 
+OPEN, CLOSE, REL, or ORD.
+<br />
+<a href="#delimiterTABLES">Click here for a table of MathJax Delimiters</a>
+</li>
+
+<li>BROWSER-SPECIFIC SUGGESTIONS:<br />
+<ul>
+<li>
+Set explicit widths for table-cells that contain math content;<br />
+in native MathML environments, some unusual line-breaking in math can occur otherwise.
+</li>
+</ul>
+</li>
+
+</ul>
+
+<a name="dimensionUnits"></a>
+<h2>DIMENSION UNITS:</h2>
+<table border="1" cellpadding="10" cellspacing="0">
+
+<tr style="vertical-align:top;">
+<td>em</td>
+<td>
+a relative measure;<br />
+depends on current font</td>
+<td>approximately the width of<br />capital &lsquo;M&rsquo; in current font</td>
+<td>
+$1\text{ em}$ spaces:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip1em\mark\hskip 1em\mark\ $ compare with M in a small font</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip1em\mark\hskip 1em\mark\ $ compare with M in a medium font</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip1em\mark\hskip 1em\mark\ $ compare with M in a large font</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip1em\mark\hskip 1em\mark}\ $ in scriptstyle (medium font)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip1em\mark\hskip 1em\mark}\ $ in scriptscriptstyle (medium font)</div>
+</td>
+</tr>
+
+<tr style="vertical-align:top;">
+<td>ex</td>
+<td>
+a relative measure;<br />
+depends on current font</td>
+<td>$1\text{ ex} = 0.43\text{ em}$<br />
+<br />
+approximately the height of<br />lowercase &lsquo;x&rsquo; in current font;<br />
+gives information about the height of lowercase letters</td>
+<td>
+$1\text{ ex}$ spaces:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip1ex\mark\hskip 1ex\mark\ $ compare with x in a small font</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip1ex\mark\hskip 1ex\mark\ $ compare with x in a medium font</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip1ex\mark\hskip 1ex\mark\ $ compare with x in a large font</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip1ex\mark\hskip 1ex\mark}\ $ in scriptstyle (medium font)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip1ex\mark\hskip 1ex\mark}\ $ in scriptscriptstyle (medium font)</div>
+</td>
+</tr>
+
+
+
+<tr style="vertical-align:top;">
+<td>pt</td>
+<td>point<br />
+<br />
+a relative measure;<br />
+depends on current font;<br />
+not affected by superscript level
+</td>
+<td>$1\text{ pt} = \frac{1}{10}\text{em}$</td>
+<td>
+$10\text{ pt}$ ($1\text{ em}$) spaces:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip 10pt\mark\hskip 10pt\mark\ $ in a small font</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip 10pt\mark\hskip 10pt\mark\ $ in a medium font</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip 10pt\mark\hskip 10pt\mark\ $ in a large font</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip 10pt\mark\hskip 10pt\mark}\ $ in scriptstyle (medium font)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip 10pt\mark\hskip 10pt\mark}\ $ in scriptscriptstyle (medium font)</div>
+</td>
+</tr>
+
+
+<tr style="vertical-align:top;">
+<td>pc</td>
+<td>pica<br />
+<br />
+a relative measure;<br />
+depends on current font;<br />
+not affected by superscript level
+</td>
+<td>$1\text{ pc} = 12\text{ pt}$
+</td>
+<td>
+$1\text{ pc}$ spaces:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip 1pc\mark\hskip 1pc\mark\ $ in a small font</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip 1pc\mark\hskip 1pc\mark\ $ in a medium font</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip 1pc\mark\hskip 1pc\mark\ $ in a large font</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip 1pc\mark\hskip 1pc\mark}\ $ in scriptstyle (medium font)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip 1pc\mark\hskip 1pc\mark}\ $ in scriptscriptstyle (medium font)</div>
+</td>
+</tr>
+
+<tr style="vertical-align:top;">
+<td>mu</td>
+<td>
+a relative measure;<br />
+depends on current font;<br />
+changes with superscript level
+</td>
+<td>$1\text{ mu} = \frac{1}{18}\text{em}$</td>
+<td>
+$18\text{ mu}$ ($1\text{ em}$) spaces:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip 18mu\mark\hskip 18mu\mark\ $ in a small font</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip 18mu\mark\hskip 18mu\mark\ $ in a medium font</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip 18mu\mark\hskip 18mu\mark\ $ in a large font</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip 18mu\mark\hskip 18mu\mark}\ $ in scriptstyle (medium font)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip 18mu\mark\hskip 18mu\mark}\ $ in scriptscriptstyle (medium font)</div>
+</td>
+</tr>
+
+<tr style="vertical-align:top;">
+<td>cm<br />mm</td>
+<td>centimeter<br />
+millimeter<br />
+<br />
+absolute measure;<br />
+does not depend on current font</td>
+<td>
+$10\text{ mm} = 1\text{ cm}$
+</td>
+<td>
+$1\text{ cm}$ ($\,10\text{ mm}\,$) spaces:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip1cm\mark\hskip 1cm\mark\ $ in a small font</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip1cm\mark\hskip 1cm\mark\ $ in a medium font</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip1cm\mark\hskip 1cm\mark\ $ in a large font</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip1cm\mark\hskip 1cm\mark}\ $ in scriptstyle (medium font)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip1cm\mark\hskip 1cm\mark}\ $ in scriptscriptstyle (medium font)</div>
+</td>
+</tr>
+
+<tr style="vertical-align:top;">
+<td>in</td>
+<td>inch<br />
+<br />
+absolute measure;<br />
+does not depend on current font</td>
+<td>$1\text{ in} = 2.54\text{ cm}$
+</td>
+<td>
+$1\text{ in}$ spaces:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip1in\mark\ $ in a small font</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip1in\mark\ $ in a medium font</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip1in\mark\ $ in a large font</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip1in\mark}\ $ in scriptstyle (medium font)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip1in\mark}\ $ in scriptscriptstyle (medium font)</div>
+</td>
+</tr>
+
+<tr style="vertical-align:top;">
+<td>px</td>
+<td>screen pixel</td>
+<td></td>
+<td>
+$10\text{ px}$ spaces on your own screen:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip10px\mark\hskip 10px\mark\ $ in a small font</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip10px\mark\hskip 10px\mark\ $ in a medium font</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip10px\mark\hskip 10px\mark\ $ in a large font</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip10px\mark\hskip 10px\mark}\ $ in scriptstyle (medium font)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip10px\mark\hskip 10px\mark}\ $ in scriptscriptstyle (medium font)</div>
+</td>
+</tr>
+
+</table>
+
+<br />
+<br />
+
+<table style="width:100%;" border="1" cellspacing="0" cellpadding="10">
+<tr>
+<td colspan="5">
+<a name="delimiterTABLES"></a>
+<h2 style="margin-top:0px;">VARIABLE-SIZED DELIMITERS</h2>
+When used with &nbsp;<code>\left</code>&nbsp; and &nbsp;<code>\right</code>&nbsp;,
+these symbols expand to the height of the enclosed math expression.<br />
+They can also be used with 
+<a href="TeXSyntax.htm#BiggEtc">\Bigg, \bigg, \Big, \big</a> (or, the left/right/middle versions) to produce fixed-height large delimiters.<br />
+Each is illustrated below in sizes: &nbsp; normal, &nbsp;<code>\big</code>, &nbsp;<code>\Big</code>, &nbsp;<code>\bigg</code>, &nbsp;<code>\Bigg</code>
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>(</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$(\ \ 
+\big(\ \ 
+\Big(\ \ 
+\bigg(\ \ 
+\Bigg(
+$
+</td>
+<td style="vertical-align:top;"><code>)</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$)\ \ 
+\big)\ \ 
+\Big)\ \ 
+\bigg)\ \ 
+\Bigg)
+$
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>\lgroup</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$\lgroup\ \ 
+\big\lgroup\ \ 
+\Big\lgroup\ \ 
+\bigg\lgroup\ \ 
+\Bigg\lgroup
+$
+</td>
+<td style="vertical-align:top;"><code>\rgroup</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$\rgroup\ \ 
+\big\rgroup\ \ 
+\Big\rgroup\ \ 
+\bigg\rgroup\ \ 
+\Bigg\rgroup
+$
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>[</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$[\ \ 
+\big[\ \ 
+\Big[\ \ 
+\bigg[\ \ 
+\Bigg[
+$
+</td>
+<td style="vertical-align:top;"><code>]</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$]\ \ 
+\big]\ \ 
+\Big]\ \ 
+\bigg]\ \ 
+\Bigg]
+$
+</td>
+</tr>
+
+
+<tr>
+<td style="vertical-align:top;"><code>\{</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$\{\ \ 
+\big\{\ \ 
+\Big\{\ \ 
+\bigg\{\ \ 
+\Bigg\{
+$
+</td>
+<td style="vertical-align:top;"><code>\}</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$\}\ \ 
+\big\}\ \ 
+\Big\}\ \ 
+\bigg\}\ \ 
+\Bigg\}
+$
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>\uparrow</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$\uparrow\ \ 
+\big\uparrow\ \ 
+\Big\uparrow\ \ 
+\bigg\uparrow\ \ 
+\Bigg\uparrow
+$
+</td>
+<td style="vertical-align:top;"><code>\Uparrow</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$\Uparrow\ \ 
+\big\Uparrow\ \ 
+\Big\Uparrow\ \ 
+\bigg\Uparrow\ \ 
+\Bigg\Uparrow
+$
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>\downarrow</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$\downarrow\ \ 
+\big\downarrow\ \ 
+\Big\downarrow\ \ 
+\bigg\downarrow\ \ 
+\Bigg\downarrow
+$
+</td>
+<td style="vertical-align:top;"><code>\Downarrow</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$\Downarrow\ \ 
+\big\Downarrow\ \ 
+\Big\Downarrow\ \ 
+\bigg\Downarrow\ \ 
+\Bigg\Downarrow
+$
+</td>
+</tr>
+
+
+<tr>
+<td style="vertical-align:top;"><code>\updownarrow</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$\updownarrow\ \ 
+\big\updownarrow\ \ 
+\Big\updownarrow\ \ 
+\bigg\updownarrow\ \ 
+\Bigg\updownarrow
+$
+</td>
+<td style="vertical-align:top;"><code>\Updownarrow</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$\Updownarrow\ \ 
+\big\Updownarrow\ \ 
+\Big\Updownarrow\ \ 
+\bigg\Updownarrow\ \ 
+\Bigg\Updownarrow
+$
+</td>
+</tr>
+
+
+
+<tr>
+<td style="vertical-align:top;"><code>\langle</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$\langle\ \ 
+\big\langle\ \ 
+\Big\langle\ \ 
+\bigg\langle\ \ 
+\Bigg\langle
+$
+</td>
+<td style="vertical-align:top;"><code>\rangle</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$\rangle\ \ 
+\big\rangle\ \ 
+\Big\rangle\ \ 
+\bigg\rangle\ \ 
+\Bigg\rangle
+$
+</td>
+</tr>
+
+
+<tr>
+<td style="vertical-align:top;"><code>&lt;</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$<\ \ 
+\big<\ \ 
+\Big<\ \ 
+\bigg<\ \ 
+\Bigg<
+$
+</td>
+<td style="vertical-align:top;"><code>&gt;</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$>\ \ 
+\big>\ \ 
+\Big>\ \ 
+\bigg>\ \ 
+\Bigg>
+$
+</td>
+</tr>
+
+
+<tr>
+<td style="vertical-align:top;"><code>|</code>&nbsp; or &nbsp;<code>\vert</code><br />
+<br />
+class <a href="#CLASS">ORD</a>
+</td>
+<td>$|\ \ 
+\big|\ \ 
+\Big|\ \ 
+\bigg|\ \ 
+\Bigg|
+$
+</td>
+
+<td style="vertical-align:top;"><code>\|</code>&nbsp; or &nbsp;<code>\Vert</code><br />
+<br />
+class <a href="#CLASS">ORD</a>
+</td>
+<td>$\|\ \ 
+\big\|\ \ 
+\Big\|\ \ 
+\bigg\|\ \ 
+\Bigg\|
+$
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>\arrowvert</code><br />
+<br />
+class <a href="#CLASS">ORD</a>
+</td>
+<td>$\arrowvert\ \ 
+\big\arrowvert\ \ 
+\Big\arrowvert\ \ 
+\bigg\arrowvert\ \ 
+\Bigg\arrowvert
+$
+</td>
+<td style="vertical-align:top;"><code>\Arrowvert</code><br />
+<br />
+class <a href="#CLASS">PUNCT</a>
+</td>
+<td>$\Arrowvert\ \ 
+\big\Arrowvert\ \ 
+\Big\Arrowvert\ \ 
+\bigg\Arrowvert\ \ 
+\Bigg\Arrowvert
+$
+</td>
+</tr>
+
+
+<tr>
+<td style="vertical-align:top;"><code>\bracevert</code><br />
+<br />
+class <a href="#CLASS">ORD</a>
+</td>
+<td>$\bracevert\ \ 
+\big\bracevert\ \ 
+\Big\bracevert\ \ 
+\bigg\bracevert\ \ 
+\Bigg\bracevert
+$
+</td>
+<td style="vertical-align:top;">&nbsp;
+</td>
+<td>&nbsp;
+</td>
+</tr>
+
+
+
+<tr>
+<td style="vertical-align:top;"><code>\lceil</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$\lceil\ \ 
+\big\lceil\ \ 
+\Big\lceil\ \ 
+\bigg\lceil\ \ 
+\Bigg\lceil
+$
+</td>
+<td style="vertical-align:top;"><code>\rceil</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$\rceil\ \ 
+\big\rceil\ \ 
+\Big\rceil\ \ 
+\bigg\rceil\ \ 
+\Bigg\rceil
+$
+</td>
+</tr>
+
+
+<tr>
+<td style="vertical-align:top;"><code>\lfloor</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$\lfloor\ \ 
+\big\lfloor\ \ 
+\Big\lfloor\ \ 
+\bigg\lfloor\ \ 
+\Bigg\lfloor
+$
+</td>
+<td style="vertical-align:top;"><code>\rfloor</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$\rfloor\ \ 
+\big\rfloor\ \ 
+\Big\rfloor\ \ 
+\bigg\rfloor\ \ 
+\Bigg\rfloor
+$
+</td>
+</tr>
+
+
+
+<tr>
+<td style="vertical-align:top;"><code>/</code><br />
+<br />
+class <a href="#CLASS">ORD</a>
+</td>
+<td>$/\ \ 
+\big/\ \ 
+\Big/\ \ 
+\bigg/\ \ 
+\Bigg/
+$
+</td>
+<td style="vertical-align:top;"><code>\backslash</code><br />
+<br />
+class <a href="#CLASS">ORD</a>
+</td>
+<td>$\backslash\ \ 
+\big\backslash\ \ 
+\Big\backslash\ \ 
+\bigg\backslash\ \ 
+\Bigg\backslash
+$
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>\lmoustache</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$\lmoustache\ \ 
+\big\lmoustache\ \ 
+\Big\lmoustache\ \ 
+\bigg\lmoustache\ \ 
+\Bigg\lmoustache
+$
+</td>
+<td style="vertical-align:top;"><code>\rmoustache</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$\rmoustache\ \ 
+\big\rmoustache\ \ 
+\Big\rmoustache\ \ 
+\bigg\rmoustache\ \ 
+\Bigg\rmoustache
+$
+</td>
+</tr>
+
+
+
+
+
+
+</table>
+ 
+<br />
+<br />
+
+<table style="width:100%;" border="1" cellspacing="0" cellpadding="10">
+
+<tr>
+<td colspan="5">
+<a name="opDiffDisplays"></a>
+<h2 style="margin-top:0px;">BIG OPERATORS</h2>
+For some of these operators (as indicated in the table), default limit positions can be changed
+using the &nbsp;<code>\limits</code>&nbsp; and &nbsp;<code>\nolimits</code>&nbsp; commands.<br />
+Both commands should follow immediately after the base symbol to which they apply. For example, compare:
+<table style="width:100%; text-align:center; margin-top:10px;">
+
+
+<tr>
+<td><code>\coprod_{i=1}^n</code><br />(inline mode)</td>
+<td><code>\coprod\limits_{i=1}^n</code><br />(inline mode)</td>
+<td><code>\coprod_{i=1}^n</code><br />(display mode)</td>
+<td><code>\coprod\nolimits_{i=1}^n</code><br />(display mode)</td>
+</tr>
+
+<tr>
+<td>$\coprod_{i=1}^n$</td>
+<td>$\coprod\limits_{i=1}^n$</td>
+<td>$\displaystyle\coprod_{i=1}^n$</td>
+<td>$\displaystyle\coprod\nolimits_{i=1}^n$</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+<tr style="text-align:center;">
+<td>
+operator name</td>
+<td>default inline mode behavior</td>
+<td>inline with &nbsp;<code>\limits</code>&nbsp;</td>
+<td>default display mode behavior</td>
+<td>display with &nbsp;<code>\nolimits</code><br />(unless otherwise indicated)</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\arccos, \arcsin, \arctan</code><br />
+do not change size;<br />
+default limit placement is the same in both inline and display modes;<br />
+can change limit placement using &nbsp;<code>\limits</code>
+</td>
+<td>$\arccos_{\rm sub}^{\rm sup}$</td>
+<td>$\arccos\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\arccos_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;">display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\arccos\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\arg</code><br />
+<br />
+does not change size;<br />
+default limit placement is the same in both inline and display modes;<br />
+can change limit placement using &nbsp;<code>\limits</code>
+</td>
+<td>$\arg_{\rm sub}^{\rm sup}$</td>
+<td>$\arg\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\arg_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;">display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\arg\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\bigcap, \bigcup</code><br />
+<br />
+both change size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code>
+</td>
+<td>$\bigcap_{\rm sub}^{\rm sup}$</td>
+<td>$\bigcap\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigcap_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigcap\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\bigodot, \bigoplus, \bigotimes</code><br />
+<br />
+all change size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code>
+</td>
+<td>$\bigodot_{\rm sub}^{\rm sup}$</td>
+<td>$\bigodot\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigodot_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigodot\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\bigsqcup</code><br />
+<br />
+changes size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code>
+</td>
+<td>$\bigsqcup_{\rm sub}^{\rm sup}$</td>
+<td>$\bigsqcup\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigsqcup_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigsqcup\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\biguplus</code><br />
+<br />
+changes size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code>
+</td>
+<td>$\biguplus_{\rm sub}^{\rm sup}$</td>
+<td>$\biguplus\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\biguplus_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\biguplus\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\bigvee, \bigwedge</code><br />
+<br />
+both change size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code>
+</td>
+<td>$\bigvee_{\rm sub}^{\rm sup}$</td>
+<td>$\bigvee\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigvee_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigvee\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\coprod</code><br />
+<br />
+changes size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code>
+</td>
+<td>$\coprod_{\rm sub}^{\rm sup}$</td>
+<td>$\coprod\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\coprod_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\coprod\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\cos, \sin, \tan, \sec, \cot, \csc<br />
+\cosh, \sinh, \tanh, \coth</code><br />
+do not change size;<br />
+default limit placement is the same in both inline and display modes;<br />
+can change limit placement using &nbsp;<code>\limits</code>
+</td>
+<td>$\cos_{\rm sub}^{\rm sup}$</td>
+<td>$\cos\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\cos_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;">display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\cos\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\deg</code><br />
+<br />
+does not change size;<br />
+default limit placement is the same in both inline and display modes;<br />
+can change limit placement using &nbsp;<code>\limits</code>
+</td>
+<td>$\deg_{\rm sub}^{\rm sup}$</td>
+<td>$\deg\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\deg_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;">display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\deg\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\det</code><br />
+<br />
+does not change size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code>&nbsp;
+</td>
+<td>$\det_{\rm sub}^{\rm sup}$</td>
+<td>$\det\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\det_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\det\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\dim</code><br />
+<br />
+does not change size;<br />
+default limit placement is the same in both inline and display modes;<br />
+can change limit placement using &nbsp;<code>\limits</code>
+</td>
+<td>$\dim_{\rm sub}^{\rm sup}$</td>
+<td>$\dim\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\dim_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;">display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\dim\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\exp</code><br />
+<br />
+does not change size;<br />
+default limit placement is the same in both inline and display modes;<br />
+can change limit placement using &nbsp;<code>\limits</code>
+</td>
+<td>$\exp_{\rm sub}^{\rm sup}$</td>
+<td>$\exp\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\exp_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;">display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\exp\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\gcd</code><br />
+<br />
+does not change size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code></td>
+<td>$\gcd_{\rm sub}^{\rm sup}$</td>
+<td>$\gcd\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\gcd_{\rm sub}^{\rm sup}$</td>
+<td>
+$\displaystyle\gcd\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\hom</code><br />
+<br />
+does not change size;<br />
+default limit placement is the same in both inline and display modes;<br />
+can change limit placement using &nbsp;<code>\limits</code>
+</td>
+<td>$\hom_{\rm sub}^{\rm sup}$</td>
+<td>$\hom\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\hom_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;">display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\hom\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\idotsint</code><br />
+<br />
+changes size;<br />
+can change limit placement using &nbsp;<code>\limits</code>
+</td>
+<td>$\idotsint_{\rm sub}^{\rm sup}$</td>
+<td>$\idotsint\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\idotsint_{\rm sub}^{\rm sup}$</td>
+<td>display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\idotsint\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\iiiint</code>,
+<code>\iiint</code>,
+<code>\iint</code>,
+<code>\int</code><br />
+<br />
+all change size;<br />
+can change limit placement using &nbsp;<code>\limits</code>;<br />
+common behavior is illustrated here using &nbsp;<code>\iint</code>
+</td>
+<td>$\iint_{\rm sub}^{\rm sup}$</td>
+<td>$\iint\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\iint_{\rm sub}^{\rm sup}$</td>
+<td>display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\iint\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\intop</code>
+<br />
+<br />
+changes size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp;
+and &nbsp;<code>\nolimits</code>
+</td>
+<td>$\intop_{\rm sub}^{\rm sup}$</td>
+<td>$\intop\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\intop_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\intop\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\inf</code>, <code>\sup</code><br />
+<br />
+do not change size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code></td>
+<td>$\inf_{\rm sub}^{\rm sup}$</td>
+<td>$\inf\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\inf_{\rm sub}^{\rm sup}$</td>
+<td>
+$\displaystyle\inf\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\injlim</code>, <code>\varinjlim</code><br />
+<br />
+do not change size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code></td>
+<td>$\injlim_{\rm sub}^{\rm sup}$</td>
+<td>$\injlim\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\injlim_{\rm sub}^{\rm sup}$</td>
+<td>
+$\displaystyle\injlim\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\ker</code><br />
+<br />
+does not change size;<br />
+default limit placement is the same in both inline and display modes;<br />
+can change limit placement using &nbsp;<code>\limits</code>
+</td>
+<td>$\ker_{\rm sub}^{\rm sup}$</td>
+<td>$\ker\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\ker_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;">display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\ker\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\lg</code><br />
+<br />
+does not change size;<br />
+default limit placement is the same in both inline and display modes;<br />
+can change limit placement using &nbsp;<code>\limits</code>
+</td>
+<td>$\lg_{\rm sub}^{\rm sup}$</td>
+<td>$\lg\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\lg_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;">display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\lg\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\lim, \liminf, \limsup, \varliminf, \varlimsup</code><br />
+<br />
+do not change size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code></td>
+<td>$\lim_{\rm sub}^{\rm sup}$</td>
+<td>$\lim\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\lim_{\rm sub}^{\rm sup}$</td>
+<td>
+$\displaystyle\lim\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\ln, \log</code><br />
+<br />
+does not change size;<br />
+default limit placement is the same in both inline and display modes;<br />
+can change limit placement using &nbsp;<code>\limits</code>
+</td>
+<td>$\ln_{\rm sub}^{\rm sup}$</td>
+<td>$\ln\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\ln_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;">display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\ln\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\max, \min</code><br />
+<br />
+do not change size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code></td>
+<td>$\max_{\rm sub}^{\rm sup}$</td>
+<td>$\max\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\max_{\rm sub}^{\rm sup}$</td>
+<td>
+$\displaystyle\max\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\oint</code>
+<br />
+<br />
+changes size;<br />
+can change limit placement using &nbsp;<code>\limits</code>
+</td>
+<td>$\oint_{\rm sub}^{\rm sup}$</td>
+<td>$\oint\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\oint_{\rm sub}^{\rm sup}$</td>
+<td>display with &nbsp;<code>\limits</code><br /><br />
+$\displaystyle\oint\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\Pr</code><br />
+<br />
+does not change size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code>&nbsp;
+</td>
+<td>$\Pr_{\rm sub}^{\rm sup}$</td>
+<td>$\Pr\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\Pr_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\Pr\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\prod</code><br />
+<br />
+changes size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code>
+</td>
+<td>$\prod_{\rm sub}^{\rm sup}$</td>
+<td>$\prod\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\prod_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\prod\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\projlim, \varprojlim</code><br />
+<br />
+does not change size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code>&nbsp;
+</td>
+<td>$\projlim_{\rm sub}^{\rm sup}$</td>
+<td>$\projlim\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\projlim_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\projlim\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\sum</code><br />
+<br />
+changes size;<br />
+can change limit placement using &nbsp;<code>\limits</code>&nbsp; and
+&nbsp;<code>\nolimits</code>
+</td>
+<td>$\sum_{\rm sub}^{\rm sup}$</td>
+<td>$\sum\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\sum_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\sum\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+
+
+
+</table>
+
+
+ </body>
+ </html>

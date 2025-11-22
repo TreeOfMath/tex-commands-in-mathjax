@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!--
+REVISION RECORD:
+April 21, 2011: created
+-->
+
+<head>
+
+<title>MathJax에서 툴팁</title>
+
+<!-- see documentation: http://www.mathjax.org/docs/1.1/output.html -->
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="keywords" content="MathJax,tooltips" />
+
+<link rel="stylesheet" href="../CSS_Style.css" />
+
+<!-- Custom functions/variables -->
+<script src="../auxiliary.js"></script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<!-- this inline configuration information MUST come before MathJax is loaded, below;
+     otherwise, MJ may NOT recognize the math content between $s, and nothing will be rendered;
+     performance will be erratic -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: {
+    Macros: { 
+    tooltipc: ["\\tooltip{\\color{green}{#1}}{#2}",2],
+    texttip: ["\\tooltip{#1}{\\text{#2}}",2],
+    texttipc: ["\\tooltip{\\color{green}{#1}}{\\text{#2}}",2]
+    }
+  },
+  tex2jax: {
+    inlineMath: [['$','$'],['\\(','\\)']],
+    preview: ["[math]"],
+    processEscapes: true
+  }
+}); 
+MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
+  var TEX = MathJax.InputJax.TeX,
+      MML = MathJax.ElementJax.mml;
+  TEX.Definitions.macros.tooltip = "myToolTip";
+  TEX.Parse.Augment({
+    myToolTip: function (name) {
+    var arg = this.ParseArg(name), tip = this.ParseArg(name);
+    this.Push(MML.maction(arg,tip).With({actiontype: MML.ACTIONTYPE.TOOLTIP}));
+    }
+  });
+});  
+</script>
+ 
+<!-- this configuration includes both the AMSmath and AMSsymbols packages -->
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+<body>
+
+<h1>MathJax에서 툴팁</h1>
+
+<p>
+이 페이지는 요약, 확장 기능 그리고 2011년 4월에 <a href="http://groups.google.com/group/mathjax-users/">MathJax Users Group</a> 에서 &lsquo;Labeling equation terms&rsquo; 를 주제로 한 실용 예제이다.<br />
+Davide P. Cervone 에 의해 기고된 해법들을 포함한다.
+</p>
+
+<p>
+툴팁 위치에 영향을 미치는 알려진 버그가 있지만 곧 고쳐질 것이다.
+</p>
+
+<p>
+툴팁의 네가지 버전이 있다:
+<ul>
+
+<li style="margin-bottom:30px;">기본 툴팁:<br />
+첫 번째 인수는 클릭할 수 있는 부분이다;<br />
+두 번째 인수는 기본 수식 내용의 툴팁이다.
+<div class="syntax">\tooltip{#1}{#2}</div>
+보기:<br />
+<pre>
+\sum_{n=0}^\infty {\tooltip{x}{\text{converges for }|x|\lt 1 }}^n = \frac{1}{1-x}
+</pre>
+결과 (아래 표현식 $x^n$ 의 &lsquo;$x$&rsquo; 위에 나타난다)<br />
+<br />
+$
+\displaystyle
+\sum_{n=0}^\infty {\tooltip{x}{\text{converges for }|x|\lt 1}}^n = \frac{1}{1-x}
+$
+</li>
+
+<li style="margin-bottom:30px;">컬러가 있는 기본 툴팁:<br />
+첫 번째 인수는 선택된 컬러로 식별된 클릭할 수 있는 부분이다;<br />
+두 번째 인수는 기본 수식 내용의 툴팁이다
+<div class="syntax">\tooltipc{#1}{#2}</div>
+보기:<br />
+<pre>
+\sum_{n=0}^\infty {\tooltipc{x}{\text{converges for }|x|\lt 1 }}^n = \frac{1}{1-x}
+</pre>
+결과 (아래의 녹색 &lsquo;$x$&rsquo; 위에 나타난다)<br />
+<br />
+$
+\displaystyle
+\sum_{n=0}^\infty {\tooltipc{x}{\text{converges for }|x|\lt 1}}^n = \frac{1}{1-x}
+$
+</li>
+
+<li style="margin-bottom:30px;">텍스트 툴팁:<br />
+첫 번째 인수는 클릭할 수 있는 부분이다;<br />
+두 번째 인수는 기본 텍스트 내용의 툴팁이다.
+<div class="syntax">\texttip{#1}{#2}</div>
+두 번째 인수는 수식이 적절한 구분자를 포함하는 한 수식을 포함할 것이다.<br />
+<br />
+보기:<br />
+<pre>
+\texttip{a}{the first term is an \(a\)} \texttip{+}{a binary operator} \texttip{b}{the second term}
+</pre>
+결과 (아래 표현식의 각 부분에 나타난다)<br />
+<br />
+$
+\texttip{a}{the first term is an \(a\)} \texttip{+}{a binary operator} \texttip{b}{the second term}
+$<br />
+<br />
+<br />
+보기:<br />
+<pre>
+\texttip{a}{the first term is an \(a\)} \mathbin{\texttip{+}{a binary operator}} \texttip{b}{the second term}
+</pre>
+결과 (아래 표현식의 각 부분에 나타난다)<br />
+<br />
+$
+\texttip{a}{the first term is an \(a\)} \mathbin{\texttip{+}{a binary operator}} \texttip{b}{the second term}
+$<br />
+<br />
+두 번째 보기에서, &nbsp; <code>\mathbin</code> &nbsp; 은 texttip 된 플러스 기호가 간격이 늘어난 이항 연산자가 되게 한다.
+</li>
+
+<li style="margin-bottom:30px;">컬러가 있는 텍스트 툴팁:<br />
+첫 번째 인수는 선택된 컬러로 식별된 클릭할 수 있는 부분이다;<br />
+두 번째 인수는 기본 텍스트 내용의 툴팁이다.
+<div class="syntax">\texttipc{#1}{#2}</div>
+두 번째 인수는 수식이 적절한 구분자를 포함하는 한 수식을 포함할 것이다.<br />
+<br />
+보기:<br />
+<pre>
+\frac{\texttipc{a+b}{numerator}}{\texttipc{2}{denominator}}
+</pre>
+결과 (아래 표현식의 각 녹색 부분에 나타난다)<br />
+<br />
+$
+\displaystyle
+\frac{\texttipc{a+b}{numerator}}{\texttipc{2}{denominator}}
+$
+</li>
+</ul>
+</p>
+
+<p>
+비록 이 기능이 MathJax에 만들어지지 않았지만, 이 페이지의 방법을 따르면<br />
+(그리고 이 페이지의 예제에 있는 소스코드를 사용하면) 쉽게 이용할 수 있다.
+</p>
+
+<ul>
+<li style="margin-bottom:30px;">1 단계:<br />
+문서의 구성 영역에 다음을 포함한다.<br />
+(동작을 보려면 이 페이지의 소스코드를 보시오.)
+<pre>
+MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
+  var TEX = MathJax.InputJax.TeX,
+    MML = MathJax.ElementJax.mml;
+  TEX.Definitions.macros.tooltip = "myToolTip";
+  TEX.Parse.Augment({
+    myToolTip: function (name) {
+      var arg = this.ParseArg(name), tip = this.ParseArg(name);
+      this.Push(MML.maction(arg,tip).With({actiontype: MML.ACTIONTYPE.TOOLTIP}));
+    }
+  });
+});  
+</pre>
+</li>
+<li>2 단계:<br />
+<code>MathJax.Hub.Config</code> 안에 다음을 포함한다.<br />
+(동작을 보려면 이 페이지의 소스코드를 보시오.)
+<pre>
+TeX: {
+  Macros: { 
+    tooltipc: ["\\tooltip{\\color{green}{#1}}{#2}",2],
+    texttip: ["\\tooltip{#1}{\\text{#2}}",2],
+    texttipc: ["\\tooltip{\\color{green}{#1}}{\\text{#2}}",2]
+  }
+}
+</pre>
+구현하기 원하는 매크로를 위해서 라인들을 포함시키는 것이 필요하다.<br />
+컬러를 바꾸기 원하면 &lsquo;green&rsquo; 을 바꾸기만 하면 된다.
+</li>
+</ul>
+
+</body>
+
+
+</html>
+
+

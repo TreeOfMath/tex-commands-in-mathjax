@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+<title>Very Long Math in MathJax</title>
+
+<!-- see documentation: http://www.mathjax.org/docs/1.1/output.html -->
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="keywords" content="MathJax,TeX,LaTeX,MathJax torture test" />
+
+    <meta name="viewport" content="width=device-width,
+          initial-scale=1.0" />
+
+    <link rel="stylesheet" href="CSS_Style.css" />
+
+    <!-- Custom functions/variables for header, footer, web lesson needs -->
+    <script src="auxiliary.js"></script>
+
+    <!-- Load math/graphics -->
+    <script>
+         document.write(loadMathJax());
+    </script>
+
+</head>
+
+<body>
+
+<p>
+In MathJax, math does not automatically break to fit a window; scrollbars appear as needed.<br />
+</p>
+
+<p>
+MathJax does not support line breaks within inline math.<br />
+If required, you can end math mode and put in an explicit break, like this:
+<pre>$123$&lt;br /&gt;$abc$</pre>
+yields:<br />
+<br />
+$123$<br />$abc$
+</p>
+
+<p>
+In display mode, you can use all the normal multi-line constructs
+(e.g., &nbsp;<code>gather</code>&nbsp; and &nbsp;<code>align</code>&nbsp;).
+</p>
+
+<div style="margin-bottom:50px; margin-top:50px;">
+Example:
+<pre>
+$$
+\text{The first quick brown fox jumps over the lazy dog.
+The second quick brown fox jumps over the lazy dog.
+The third quick brown fox jumps over the lazy dog.
+The fourth quick brown fox jumps over the lazy dog.
+}
+$$
+</pre>
+yields<br />
+<br />
+$$\text{The first quick brown fox jumps over the lazy dog.
+The second quick brown fox jumps over the lazy dog.
+The third quick brown fox jumps over the lazy dog.
+The fourth quick brown fox jumps over the lazy dog.
+}
+$$
+</div>
+
+<p>
+Example:
+<pre>
+$
+a1 b1 c1 d1 e1 f1 g1 h1 i1 j1 k1 l1 m1 n1 o1 p1 q1 r1 s1 t1 u1 v1 w1 x1 y1 z1
+a2 b2 c2 d2 e2 f2 g2 h2 i2 j2 k2 l2 m2 n2 o2 p2 q2 r2 s2 t2 u2 v2 w2 x2 y2 z2
+$
+</pre>
+yields<br />
+<br />
+$
+a1 b1 c1 d1 e1 f1 g1 h1 i1 j1 k1 l1 m1 n1 o1 p1 q1 r1 s1 t1 u1 v1 w1 x1 y1 z1
+a2 b2 c2 d2 e2 f2 g2 h2 i2 j2 k2 l2 m2 n2 o2 p2 q2 r2 s2 t2 u2 v2 w2 x2 y2 z2
+$
+</p>
+
+
+</body>
+</html>
+

@@ -1,0 +1,1186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!--
+REVISION RECORD:
+March 25, 2011: fixed spacing issues |  | using correspondence from Davide Cervone
+March 6, 2011: file creation
+-->
+
+<head>
+
+<title>Syntax - MathJax에서 유용한 TeX 명령어를 위한 구문론</title>
+
+<!-- see documentation: http://www.mathjax.org/docs/1.1/output.html -->
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" >
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="MathJax,TeX,LaTeX" />
+
+ <meta name="viewport" content="width=device-width,
+          initial-scale=1.0" />
+ 
+<link rel="stylesheet" href="../CSS_Style.css" />
+
+<!-- Custom functions/variables -->
+<script src="../auxiliary.js"></script>
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$']],
+    processEscapes: true }
+    });
+</script>
+   
+</head>
+
+<body>
+
+<!-- TeX definitions -->
+$
+\def\mark{\rlap{\normalsize\textstyle |}\kern 1px}
+$
+
+<h1>MathJax에서 유용한 $\rm\TeX$ 명령어를 위한 구문론</h1>
+
+<p>
+다음 구문론은 <a href="TeXSyntax_ko.html">MathJax에서 유용한 TeX 명령어</a>에서 사용된다:
+</p>
+
+<ul>
+<li style="margin-bottom:10px;">인수(ARGUMENTS):<br />
+인수는 #1, #2, #3, 등으로 표시된다.<br />
+멀티토큰은 중괄호로 감싸져야 한다: &lsquo; { } &rsquo;
+</li>
+<li>그룹 구조(GROUPING CONSTRUCTS):<br />
+괄호를 사용하는 두 가지 기본 그룹 구조가 있다;<br />
+&lsquo;인수&rsquo; 와 &lsquo;괄호 그룹&rsquo; 이라 표현한다.<br />
+만일 구조가 강제적이라 깨닫지 못한다면, 기대하지 않은 결과를 얻을 수 있다.<br />
+<a href="TeXSyntax_ko.html#braces">이 예들이 차이를 설명한다.</a>
+</li>
+<li>디멘젼(DIMENSIONS):<br />
+<a name="dimen"></a>
+&lang;dimen&rang; 은 다음과 같이 나타낸다:<br />
+&lang;부호&rang;&lang;숫자&rang;&lang;단위&rang;<br />
+예: &nbsp; <tt>-5pt</tt> &nbsp; 또는 &nbsp; <tt>-5 pt</tt> &nbsp; 또는 &nbsp; <tt>3.5pt</tt><br />
+<a href="#dimensionUnits">디멘젼 단위 테이블</a>
+</li>
+
+<li><a name="CLASS">클래스 정보(CLASS INFORMATION)</a>:<br />
+수치 연산자들은 활자 표시에서 요소들 간의 간격을 조절하는 몇 개의 명확한 클래스들로 나누어진다.<br />
+예를 들면, REL은 BIN 보다 약간 더 많은 여백을 사용한다.
+<ul style="margin-top:7px;">
+<li>
+<a name="ORD">ORD</a>: &nbsp; 변수 이름이나 그리스 문자 같은 &lsquo;일반적인&rsquo; 항목
+</li>
+<li>
+<a name="OP">OP</a>: &nbsp; &lsquo;큰 연산자&rsquo;,
+일반적으로 변하는 범위(항상은 아님), 표시에 다른 크기, 인라인 모드(항상은 아님)를 갖는다.<br />
+<a href="#opDiffDisplays">큰 연산자들의 행동에 대한 표를 보려면 여기를 클릭 하시오.</a>
+</li>
+<li>
+<a name="BIN">BIN</a>: &nbsp; $\,+\,$ 와 $\,-\,$ 같은 &lsquo;이항 연산자&rsquo;
+</li>
+<li>
+<a name="REL">REL</a>: &nbsp; $\, < \,$ 과 $\,\le\,$ 같은 &lsquo;이항 관련&rsquo;
+</li>
+<li>
+<a name="OPEN">OPEN</a>: &nbsp; $\,($ 같은 &lsquo;여는 구분자&rsquo;
+</li>
+<li>
+<a name="CLOSE">CLOSE</a>: &nbsp; $\,)\,$ 같은 &lsquo;닫는 구분자&rsquo;
+</li>
+<li>
+<a name="PUNCT">PUNCT</a>: &nbsp; $\,\colon$ 같은 &lsquo;구두점&rsquo;
+</li>
+<li>
+<a name="INNER">INNER</a>: &nbsp; 분수나 그 외 여러 경우에 사용되는 특별한 클래스
+</li>
+</ul>
+</li>
+
+<li>
+<a name="DELIMITERS">구분자(DELIMITERS)</a>:<br />
+구분자는 표현식을 감싸는 기호(예를 들면, 소괄호, 중괄호, 대괄호)<br />
+또는 연산자(예를 들면, 절대값을 나타내는 수직선)로 사용되는 기호이다.<br />
+MathJax에서, 구분자는 클래스 OPEN, CLOSE, REL, 또는 ORD가 될 수 있다.
+<br />
+<a href="#delimiterTABLES">MathJax 내의 구분자 표를 보려면 여기를 클릭 하시오.</a>
+</li>
+
+<!-- 2014.3.19  by cy
+<li>BROWSER-SPECIFIC SUGGESTIONS:<br />
+<ul>
+<li>
+Set explicit widths for table-cells that contain math content;<br />
+in native MathML environments, some unusual line-breaking in math can occur otherwise.
+</li>
+</ul>
+</li>
+-->
+
+</ul>
+
+<a name="dimensionUnits"></a>
+<h2>디멘젼 단위(DIMENSION UNITS):</h2>
+<table border="1" cellpadding="10" cellspacing="0">
+
+<tr style="vertical-align:top;">
+<td>em</td>
+<td>
+상대 측정;<br />
+현재 글꼴에 종속</td>
+<td>현재 글꼴에서 대략 대문자 &lsquo;M&rsquo; 의 너비</td>
+<td>
+$1\text{ em}$ 간격:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip1em\mark\hskip 1em\mark\ $ 작은 글꼴에서 M 과 비교</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip1em\mark\hskip 1em\mark\ $ 중간 글꼴에서 M 과 비교</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip1em\mark\hskip 1em\mark\ $ 큰 글꼴에서 M 과 비교</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip1em\mark\hskip 1em\mark}\ $ 스크립트 스타일에서 (중간 글꼴)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip1em\mark\hskip 1em\mark}\ $ 스크립트스크립트 스타일에서 (중간 글꼴)</div>
+</td>
+</tr>
+
+<tr style="vertical-align:top;">
+<td>ex</td>
+<td>
+상대 측정;<br />
+현재 글꼴에 종속</td>
+<td>$1\text{ ex} = 0.43\text{ em}$<br />
+<br />
+현재 글꼴에서 대략 소문자 &lsquo;x&rsquo; 의 높이;<br />
+소문자의 높이에 관한 정보를 준다</td>
+<td>
+$1\text{ ex}$ 간격:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip1ex\mark\hskip 1ex\mark\ $ 작은 글꼴에서 x 와 비교</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip1ex\mark\hskip 1ex\mark\ $ 중간 글꼴에서 x 와 비교</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip1ex\mark\hskip 1ex\mark\ $ 큰 글꼴에서 x 와 비교</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip1ex\mark\hskip 1ex\mark}\ $ 스크립트 스타일에서 (중간 글꼴)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip1ex\mark\hskip 1ex\mark}\ $ 스크립트스크립트 스타일에서 (중간 글꼴)</div>
+</td>
+</tr>
+
+
+
+<tr style="vertical-align:top;">
+<td>pt</td>
+<td>point<br />
+<br />
+상대 측정;<br />
+현재 글꼴에 종속;<br />
+위첨자 레벨에 영향을 받지 않는다
+</td>
+<td>$1\text{ pt} = \frac{1}{10}\text{em}$</td>
+<td>
+$10\text{ pt}$ ($1\text{ em}$) 간격:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip 10pt\mark\hskip 10pt\mark\ $ 작은 글꼴에서</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip 10pt\mark\hskip 10pt\mark\ $ 중간 글꼴에서</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip 10pt\mark\hskip 10pt\mark\ $ 큰 글꼴에서</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip 10pt\mark\hskip 10pt\mark}\ $ 스크립트 스타일에서 (중간 글꼴)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip 10pt\mark\hskip 10pt\mark}\ $ 스크립트스크립트 스타일에서 (중간 글꼴)</div>
+</td>
+</tr>
+
+
+<tr style="vertical-align:top;">
+<td>pc</td>
+<td>pica<br />
+<br />
+상대 측정;<br />
+현재 글꼴에 종속;<br />
+위첨자 레벨에 영향을 받지 않는다
+</td>
+<td>$1\text{ pc} = 12\text{ pt}$
+</td>
+<td>
+$1\text{ pc}$ 간격:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip 1pc\mark\hskip 1pc\mark\ $ 작은 글꼴에서</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip 1pc\mark\hskip 1pc\mark\ $ 중간 글꼴에서</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip 1pc\mark\hskip 1pc\mark\ $ 큰 글꼴에서</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip 1pc\mark\hskip 1pc\mark}\ $ 스크립트 스타일에서 (중간 글꼴)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip 1pc\mark\hskip 1pc\mark}\ $ 스크립트스크립트 스타일에서 (중간 글꼴)</div>
+</td>
+</tr>
+
+<tr style="vertical-align:top;">
+<td>mu</td>
+<td>
+상대 측정;<br />
+현재 글꼴에 종속;<br />
+위첨자 레벨과 함께 변한다
+</td>
+<td>$1\text{ mu} = \frac{1}{18}\text{em}$</td>
+<td>
+$18\text{ mu}$ ($1\text{ em}$) 간격:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip 18mu\mark\hskip 18mu\mark\ $ 작은 글꼴에서</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip 18mu\mark\hskip 18mu\mark\ $ 중간 글꼴에서</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip 18mu\mark\hskip 18mu\mark\ $ 큰 글꼴에서</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip 18mu\mark\hskip 18mu\mark}\ $ 스크립트 스타일에서 (중간 글꼴)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip 18mu\mark\hskip 18mu\mark}\ $ 스크립트스크립트 스타일에서 (중간 글꼴)</div>
+</td>
+</tr>
+
+<tr style="vertical-align:top;">
+<td>cm<br />mm</td>
+<td>centimeter<br />
+millimeter<br />
+<br />
+절대 측정;<br />
+현재 글꼴에 종속되지 않는다</td>
+<td>
+$10\text{ mm} = 1\text{ cm}$
+</td>
+<td>
+$1\text{ cm}$ ($\,10\text{ mm}\,$) 간격:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip1cm\mark\hskip 1cm\mark\ $ 작은 글꼴에서</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip1cm\mark\hskip 1cm\mark\ $ 중간 글꼴에서</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip1cm\mark\hskip 1cm\mark\ $ 큰 글꼴에서</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip1cm\mark\hskip 1cm\mark}\ $ 스크립트 스타일에서 (중간 글꼴)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip1cm\mark\hskip 1cm\mark}\ $ 스크립트스크립트 스타일에서 (중간 글꼴)</div>
+</td>
+</tr>
+
+<tr style="vertical-align:top;">
+<td>in</td>
+<td>inch<br />
+<br />
+절대 측정;<br />
+현재 글꼴에 종속되지 않는다</td>
+<td>$1\text{ in} = 2.54\text{ cm}$
+</td>
+<td>
+$1\text{ in}$ 간격:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip1in\mark\ $ 작은 글꼴에서</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip1in\mark\ $ 중간 글꼴에서</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip1in\mark\ $ 큰 글꼴에서</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip1in\mark}\ $ 스크립트 스타일에서 (중간 글꼴)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip1in\mark}\ $ 스크립트스크립트 스타일에서 (중간 글꼴)</div>
+</td>
+</tr>
+
+<tr style="vertical-align:top;">
+<td>px</td>
+<td>화면 pixel</td>
+<td></td>
+<td>
+$10\text{ px}$ 화면에서의 간격:<br />
+<div style="font-size:small; margin-top:7px; margin-bottom:7px;">$\mark\hskip10px\mark\hskip 10px\mark\ $ 작은 글꼴에서</div>
+<div style="font-size:medium; margin-bottom:7px;">$\mark\hskip10px\mark\hskip 10px\mark\ $ 중간 글꼴에서</div>
+<div style="font-size:large; margin-bottom:7px;">$\mark\hskip10px\mark\hskip 10px\mark\ $ 큰 글꼴에서</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptstyle\mark\hskip10px\mark\hskip 10px\mark}\ $ 스크립트 스타일에서 (중간 글꼴)</div>
+<div style="font-size:medium; margin-bottom:7px;">${\scriptscriptstyle\mark\hskip10px\mark\hskip 10px\mark}\ $ 스크립트스크립트 스타일에서 (중간 글꼴)</div>
+</td>
+</tr>
+
+</table>
+
+<br />
+<br />
+
+<table style="width:100%;" border="1" cellspacing="0" cellpadding="10">
+<tr>
+<td colspan="5">
+<a name="delimiterTABLES"></a>
+<h2 style="margin-top:0px;">다양한 크기의 구분자(VARIABLE-SIZED DELIMITERS)</h2>
+&nbsp;<code>\left</code>&nbsp;, &nbsp;<code>\right</code>&nbsp; 와 함께 사용될 때,
+이 기호들은 포함된 수식의 높이 만큼 늘어난다.<br />
+이것들은 또한 고정된 높이의 큰 구분자를 만들기 위해 <a href="TeXSyntax_ko.html#BiggEtc">\Bigg, \bigg, \Big, \big</a> (또는, left/right/middle 버전)과 함께 사용될 수 있다.<br />
+각각의 크기는 아래에 묘사된다: &nbsp; normal, &nbsp;<code>\big</code>, &nbsp;<code>\Big</code>, &nbsp;<code>\bigg</code>, &nbsp;<code>\Bigg</code>
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>(</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$(\ \ 
+\big(\ \ 
+\Big(\ \ 
+\bigg(\ \ 
+\Bigg(
+$
+</td>
+<td style="vertical-align:top;"><code>)</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$)\ \ 
+\big)\ \ 
+\Big)\ \ 
+\bigg)\ \ 
+\Bigg)
+$
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>\lgroup</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$\lgroup\ \ 
+\big\lgroup\ \ 
+\Big\lgroup\ \ 
+\bigg\lgroup\ \ 
+\Bigg\lgroup
+$
+</td>
+<td style="vertical-align:top;"><code>\rgroup</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$\rgroup\ \ 
+\big\rgroup\ \ 
+\Big\rgroup\ \ 
+\bigg\rgroup\ \ 
+\Bigg\rgroup
+$
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>[</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$[\ \ 
+\big[\ \ 
+\Big[\ \ 
+\bigg[\ \ 
+\Bigg[
+$
+</td>
+<td style="vertical-align:top;"><code>]</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$]\ \ 
+\big]\ \ 
+\Big]\ \ 
+\bigg]\ \ 
+\Bigg]
+$
+</td>
+</tr>
+
+
+<tr>
+<td style="vertical-align:top;"><code>\{</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$\{\ \ 
+\big\{\ \ 
+\Big\{\ \ 
+\bigg\{\ \ 
+\Bigg\{
+$
+</td>
+<td style="vertical-align:top;"><code>\}</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$\}\ \ 
+\big\}\ \ 
+\Big\}\ \ 
+\bigg\}\ \ 
+\Bigg\}
+$
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>\uparrow</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$\uparrow\ \ 
+\big\uparrow\ \ 
+\Big\uparrow\ \ 
+\bigg\uparrow\ \ 
+\Bigg\uparrow
+$
+</td>
+<td style="vertical-align:top;"><code>\Uparrow</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$\Uparrow\ \ 
+\big\Uparrow\ \ 
+\Big\Uparrow\ \ 
+\bigg\Uparrow\ \ 
+\Bigg\Uparrow
+$
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>\downarrow</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$\downarrow\ \ 
+\big\downarrow\ \ 
+\Big\downarrow\ \ 
+\bigg\downarrow\ \ 
+\Bigg\downarrow
+$
+</td>
+<td style="vertical-align:top;"><code>\Downarrow</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$\Downarrow\ \ 
+\big\Downarrow\ \ 
+\Big\Downarrow\ \ 
+\bigg\Downarrow\ \ 
+\Bigg\Downarrow
+$
+</td>
+</tr>
+
+
+<tr>
+<td style="vertical-align:top;"><code>\updownarrow</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$\updownarrow\ \ 
+\big\updownarrow\ \ 
+\Big\updownarrow\ \ 
+\bigg\updownarrow\ \ 
+\Bigg\updownarrow
+$
+</td>
+<td style="vertical-align:top;"><code>\Updownarrow</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$\Updownarrow\ \ 
+\big\Updownarrow\ \ 
+\Big\Updownarrow\ \ 
+\bigg\Updownarrow\ \ 
+\Bigg\Updownarrow
+$
+</td>
+</tr>
+
+
+
+<tr>
+<td style="vertical-align:top;"><code>\langle</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$\langle\ \ 
+\big\langle\ \ 
+\Big\langle\ \ 
+\bigg\langle\ \ 
+\Bigg\langle
+$
+</td>
+<td style="vertical-align:top;"><code>\rangle</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$\rangle\ \ 
+\big\rangle\ \ 
+\Big\rangle\ \ 
+\bigg\rangle\ \ 
+\Bigg\rangle
+$
+</td>
+</tr>
+
+
+<tr>
+<td style="vertical-align:top;"><code>&lt;</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$<\ \ 
+\big<\ \ 
+\Big<\ \ 
+\bigg<\ \ 
+\Bigg<
+$
+</td>
+<td style="vertical-align:top;"><code>&gt;</code><br />
+<br />
+class <a href="#CLASS">REL</a>
+</td>
+<td>$>\ \ 
+\big>\ \ 
+\Big>\ \ 
+\bigg>\ \ 
+\Bigg>
+$
+</td>
+</tr>
+
+
+<tr>
+<td style="vertical-align:top;"><code>|</code>&nbsp; 또는 &nbsp;<code>\vert</code><br />
+<br />
+class <a href="#CLASS">ORD</a>
+</td>
+<td>$|\ \ 
+\big|\ \ 
+\Big|\ \ 
+\bigg|\ \ 
+\Bigg|
+$
+</td>
+
+<td style="vertical-align:top;"><code>\|</code>&nbsp; 또는 &nbsp;<code>\Vert</code><br />
+<br />
+class <a href="#CLASS">ORD</a>
+</td>
+<td>$\|\ \ 
+\big\|\ \ 
+\Big\|\ \ 
+\bigg\|\ \ 
+\Bigg\|
+$
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>\arrowvert</code><br />
+<br />
+class <a href="#CLASS">ORD</a>
+</td>
+<td>$\arrowvert\ \ 
+\big\arrowvert\ \ 
+\Big\arrowvert\ \ 
+\bigg\arrowvert\ \ 
+\Bigg\arrowvert
+$
+</td>
+<td style="vertical-align:top;"><code>\Arrowvert</code><br />
+<br />
+class <a href="#CLASS">PUNCT</a>
+</td>
+<td>$\Arrowvert\ \ 
+\big\Arrowvert\ \ 
+\Big\Arrowvert\ \ 
+\bigg\Arrowvert\ \ 
+\Bigg\Arrowvert
+$
+</td>
+</tr>
+
+
+<tr>
+<td style="vertical-align:top;"><code>\bracevert</code><br />
+<br />
+class <a href="#CLASS">ORD</a>
+</td>
+<td>$\bracevert\ \ 
+\big\bracevert\ \ 
+\Big\bracevert\ \ 
+\bigg\bracevert\ \ 
+\Bigg\bracevert
+$
+</td>
+<td style="vertical-align:top;">&nbsp;
+</td>
+<td>&nbsp;
+</td>
+</tr>
+
+
+
+<tr>
+<td style="vertical-align:top;"><code>\lceil</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$\lceil\ \ 
+\big\lceil\ \ 
+\Big\lceil\ \ 
+\bigg\lceil\ \ 
+\Bigg\lceil
+$
+</td>
+<td style="vertical-align:top;"><code>\rceil</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$\rceil\ \ 
+\big\rceil\ \ 
+\Big\rceil\ \ 
+\bigg\rceil\ \ 
+\Bigg\rceil
+$
+</td>
+</tr>
+
+
+<tr>
+<td style="vertical-align:top;"><code>\lfloor</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$\lfloor\ \ 
+\big\lfloor\ \ 
+\Big\lfloor\ \ 
+\bigg\lfloor\ \ 
+\Bigg\lfloor
+$
+</td>
+<td style="vertical-align:top;"><code>\rfloor</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$\rfloor\ \ 
+\big\rfloor\ \ 
+\Big\rfloor\ \ 
+\bigg\rfloor\ \ 
+\Bigg\rfloor
+$
+</td>
+</tr>
+
+
+
+<tr>
+<td style="vertical-align:top;"><code>/</code><br />
+<br />
+class <a href="#CLASS">ORD</a>
+</td>
+<td>$/\ \ 
+\big/\ \ 
+\Big/\ \ 
+\bigg/\ \ 
+\Bigg/
+$
+</td>
+<td style="vertical-align:top;"><code>\backslash</code><br />
+<br />
+class <a href="#CLASS">ORD</a>
+</td>
+<td>$\backslash\ \ 
+\big\backslash\ \ 
+\Big\backslash\ \ 
+\bigg\backslash\ \ 
+\Bigg\backslash
+$
+</td>
+</tr>
+
+<tr>
+<td style="vertical-align:top;"><code>\lmoustache</code><br />
+<br />
+class <a href="#CLASS">OPEN</a>
+</td>
+<td>$\lmoustache\ \ 
+\big\lmoustache\ \ 
+\Big\lmoustache\ \ 
+\bigg\lmoustache\ \ 
+\Bigg\lmoustache
+$
+</td>
+<td style="vertical-align:top;"><code>\rmoustache</code><br />
+<br />
+class <a href="#CLASS">CLOSE</a>
+</td>
+<td>$\rmoustache\ \ 
+\big\rmoustache\ \ 
+\Big\rmoustache\ \ 
+\bigg\rmoustache\ \ 
+\Bigg\rmoustache
+$
+</td>
+</tr>
+
+
+
+
+
+
+</table>
+ 
+<br />
+<br />
+
+<table style="width:100%;" border="1" cellspacing="0" cellpadding="10">
+
+<tr>
+<td colspan="5">
+<a name="opDiffDisplays"></a>
+<h2 style="margin-top:0px;">큰 연산자(BIG OPERATORS)</h2>
+이 연산자들의 일부는 (표에 나타낸 것처럼), &nbsp;<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 명령어를 사용하여 기본 범위 위치가 바뀌어질 수 있다.<br />
+이 두 명령어는 적용될 기본 기호 뒤에 즉시 나타나야 한다. 예를 들어 비교하면:
+<table style="width:100%; text-align:center; margin-top:10px;">
+
+
+<tr>
+<td><code>\coprod_{i=1}^n</code><br />(인라인 모드)</td>
+<td><code>\coprod\limits_{i=1}^n</code><br />(인라인 모드)</td>
+<td><code>\coprod_{i=1}^n</code><br />(디스플레이 모드)</td>
+<td><code>\coprod\nolimits_{i=1}^n</code><br />(디스플레이 모드)</td>
+</tr>
+
+<tr>
+<td>$\coprod_{i=1}^n$</td>
+<td>$\coprod\limits_{i=1}^n$</td>
+<td>$\displaystyle\coprod_{i=1}^n$</td>
+<td>$\displaystyle\coprod\nolimits_{i=1}^n$</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+<tr style="text-align:center;">
+<td>
+연산자 이름</td>
+<td>기본 인라인 모드 동작</td>
+<td><code>\limits</code>&nbsp; 사용 인라인</td>
+<td>기본 디스플레이 모드 동작</td>
+<td><code>\nolimits</code> 사용 디스플레이<br />(달리 표시하지 않는 한)</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\arccos, \arcsin, \arctan</code><br />
+크기는 변하지 않는다;<br />
+인라인 모드와 디스플레이 모드에서 기본 범위 위치는 같다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\arccos_{\rm sub}^{\rm sup}$</td>
+<td>$\arccos\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\arccos_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;"><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\arccos\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\arg</code><br />
+<br />
+크기는 변하지 않는다;<br />
+인라인 모드와 디스플레이 모드에서 기본 범위 위치는 같다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\arg_{\rm sub}^{\rm sup}$</td>
+<td>$\arg\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\arg_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;"><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\arg\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\bigcap, \bigcup</code><br />
+<br />
+둘 다 크기가 변한다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\bigcap_{\rm sub}^{\rm sup}$</td>
+<td>$\bigcap\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigcap_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigcap\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\bigodot, \bigoplus, \bigotimes</code><br />
+<br />
+모두 크기가 변한다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\bigodot_{\rm sub}^{\rm sup}$</td>
+<td>$\bigodot\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigodot_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigodot\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\bigsqcup</code><br />
+<br />
+크기가 변한다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\bigsqcup_{\rm sub}^{\rm sup}$</td>
+<td>$\bigsqcup\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigsqcup_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigsqcup\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\biguplus</code><br />
+<br />
+크기가 변한다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\biguplus_{\rm sub}^{\rm sup}$</td>
+<td>$\biguplus\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\biguplus_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\biguplus\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\bigvee, \bigwedge</code><br />
+<br />
+둘 다 크기가 변한다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\bigvee_{\rm sub}^{\rm sup}$</td>
+<td>$\bigvee\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigvee_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\bigvee\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\coprod</code><br />
+<br />
+크기가 변한다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\coprod_{\rm sub}^{\rm sup}$</td>
+<td>$\coprod\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\coprod_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\coprod\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\cos, \sin, \tan, \sec, \cot, \csc<br />
+\cosh, \sinh, \tanh, \coth</code><br />
+크기는 변하지 않는다;<br />
+인라인 모드와 디스플레이 모드에서 기본 범위 위치는 같다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\cos_{\rm sub}^{\rm sup}$</td>
+<td>$\cos\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\cos_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;"><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\cos\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\deg</code><br />
+<br />
+크기는 변하지 않는다;<br />
+인라인 모드와 디스플레이 모드에서 기본 범위 위치는 같다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\deg_{\rm sub}^{\rm sup}$</td>
+<td>$\deg\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\deg_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;"><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\deg\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\det</code><br />
+<br />
+크기는 변하지 않는다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\det_{\rm sub}^{\rm sup}$</td>
+<td>$\det\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\det_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\det\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\dim</code><br />
+<br />
+크기는 변하지 않는다;<br />
+인라인 모드와 디스플레이 모드에서 기본 범위 위치는 같다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\dim_{\rm sub}^{\rm sup}$</td>
+<td>$\dim\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\dim_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;"><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\dim\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\exp</code><br />
+<br />
+크기는 변하지 않는다;<br />
+인라인 모드와 디스플레이 모드에서 기본 범위 위치는 같다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\exp_{\rm sub}^{\rm sup}$</td>
+<td>$\exp\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\exp_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;"><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\exp\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\gcd</code><br />
+<br />
+크기는 변하지 않는다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\gcd_{\rm sub}^{\rm sup}$</td>
+<td>$\gcd\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\gcd_{\rm sub}^{\rm sup}$</td>
+<td>
+$\displaystyle\gcd\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\hom</code><br />
+<br />
+크기는 변하지 않는다;<br />
+인라인 모드와 디스플레이 모드에서 기본 범위 위치는 같다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\hom_{\rm sub}^{\rm sup}$</td>
+<td>$\hom\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\hom_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;"><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\hom\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\idotsint</code><br />
+<br />
+크기가 변한다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\idotsint_{\rm sub}^{\rm sup}$</td>
+<td>$\idotsint\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\idotsint_{\rm sub}^{\rm sup}$</td>
+<td><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\idotsint\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\iiiint</code>,
+<code>\iiint</code>,
+<code>\iint</code>,
+<code>\int</code><br />
+<br />
+모두 크기가 변한다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다;<br />
+<code>\iint</code> 를 사용한 일반적인 동작이 여기 묘사된다
+</td>
+<td>$\iint_{\rm sub}^{\rm sup}$</td>
+<td>$\iint\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\iint_{\rm sub}^{\rm sup}$</td>
+<td><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\iint\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\intop</code>
+<br />
+<br />
+크기가 변한다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\intop_{\rm sub}^{\rm sup}$</td>
+<td>$\intop\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\intop_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\intop\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\inf</code>, <code>\sup</code><br />
+<br />
+크기는 변하지 않는다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\inf_{\rm sub}^{\rm sup}$</td>
+<td>$\inf\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\inf_{\rm sub}^{\rm sup}$</td>
+<td>
+$\displaystyle\inf\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\injlim</code>, <code>\varinjlim</code><br />
+<br />
+크기는 변하지 않는다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\injlim_{\rm sub}^{\rm sup}$</td>
+<td>$\injlim\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\injlim_{\rm sub}^{\rm sup}$</td>
+<td>
+$\displaystyle\injlim\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\ker</code><br />
+<br />
+크기는 변하지 않는다;<br />
+인라인 모드와 디스플레이 모드에서 기본 범위 위치는 같다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\ker_{\rm sub}^{\rm sup}$</td>
+<td>$\ker\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\ker_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;"><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\ker\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\lg</code><br />
+<br />
+크기는 변하지 않는다;<br />
+인라인 모드와 디스플레이 모드에서 기본 범위 위치는 같다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\lg_{\rm sub}^{\rm sup}$</td>
+<td>$\lg\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\lg_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;"><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\lg\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\lim, \liminf, \limsup, \varliminf, \varlimsup</code><br />
+<br />
+크기는 변하지 않는다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\lim_{\rm sub}^{\rm sup}$</td>
+<td>$\lim\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\lim_{\rm sub}^{\rm sup}$</td>
+<td>
+$\displaystyle\lim\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\ln, \log</code><br />
+<br />
+크기는 변하지 않는다;<br />
+인라인 모드와 디스플레이 모드에서 기본 범위 위치는 같다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\ln_{\rm sub}^{\rm sup}$</td>
+<td>$\ln\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\ln_{\rm sub}^{\rm sup}$</td>
+<td style="vertical-align:top;"><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\ln\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\max, \min</code><br />
+<br />
+크기는 변하지 않는다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\max_{\rm sub}^{\rm sup}$</td>
+<td>$\max\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\max_{\rm sub}^{\rm sup}$</td>
+<td>
+$\displaystyle\max\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\oint</code>
+<br />
+<br />
+크기가 변한다;<br />
+<code>\limits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\oint_{\rm sub}^{\rm sup}$</td>
+<td>$\oint\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\oint_{\rm sub}^{\rm sup}$</td>
+<td><code>\limits</code> 사용 디스플레이<br /><br />
+$\displaystyle\oint\limits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\Pr</code><br />
+<br />
+크기는 변하지 않는다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\Pr_{\rm sub}^{\rm sup}$</td>
+<td>$\Pr\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\Pr_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\Pr\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\prod</code><br />
+<br />
+크기가 변한다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\prod_{\rm sub}^{\rm sup}$</td>
+<td>$\prod\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\prod_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\prod\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\projlim, \varprojlim</code><br />
+<br />
+크기는 변하지 않는다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\projlim_{\rm sub}^{\rm sup}$</td>
+<td>$\projlim\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\projlim_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\projlim\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+
+<tr style="text-align:center;">
+<td style="text-align:left;">
+<code>\sum</code><br />
+<br />
+크기가 변한다;<br />
+<code>\limits</code>&nbsp; 와 &nbsp;<code>\nolimits</code>&nbsp; 를 사용하여 범위 위치를 바꿀 수 있다
+</td>
+<td>$\sum_{\rm sub}^{\rm sup}$</td>
+<td>$\sum\limits_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\sum_{\rm sub}^{\rm sup}$</td>
+<td>$\displaystyle\sum\nolimits_{\rm sub}^{\rm sup}$</td>
+</tr>
+
+
+
+
+</table>
+
+
+ </body>
+ </html>

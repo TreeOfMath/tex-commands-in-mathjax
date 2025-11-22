@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+
+    <!--
+    <!--
+    REVISION RECORD:
+    May 2024: updated to responsive page style, updated content a bit; load new version of MathJax
+    April 21, 2011: created
+    -->
+
+   <meta name="viewport" content="width=device-width,
+          initial-scale=1.0" />
+
+    <link rel="stylesheet" href="CSS_Style.css" />
+
+    <!-- Custom functions/variables for header, footer, web lesson needs -->
+    <script src="auxiliary.js"></script>
+
+    <!-- this inline configuration information MUST come before MathJax is loaded, below;
+     otherwise, MJ may NOT recognize the math content between $s, and nothing will be rendered;
+     performance will be erratic -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          TeX: {
+            Macros: {
+            tooltipc: ["\\tooltip{\\color{green}{#1}}{#2}",2],
+            texttip: ["\\tooltip{#1}{\\text{#2}}",2],
+            texttipc: ["\\tooltip{\\color{green}{#1}}{\\text{#2}}",2]
+            }
+          },
+          tex2jax: {
+            inlineMath: [['$','$'],['\\(','\\)']],
+            preview: ["[math]"],
+            processEscapes: true
+          }
+        });
+        MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
+          var TEX = MathJax.InputJax.TeX,
+              MML = MathJax.ElementJax.mml;
+          TEX.Definitions.macros.tooltip = "myToolTip";
+          TEX.Parse.Augment({
+            myToolTip: function (name) {
+            var arg = this.ParseArg(name), tip = this.ParseArg(name);
+            this.Push(MML.maction(arg,tip).With({actiontype: MML.ACTIONTYPE.TOOLTIP}));
+            }
+          });
+        });
+    </script>
+
+    <!-- Load math/graphics -->
+    <script>
+         document.write(loadMathJax());
+    </script>
+
+    <meta name="keywords" content="MathJax,TeX,LaTeX,MathJax tooltips" />
+    <meta name="description" content="MathJax is a Javascript display engine for mathematics that works in all browsers, with no set-up required from users. For creators already familiar with TeX or LaTeX, it is effortless to use." />
+
+    
+</head>
+
+<body>
+
+          <main>
+
+            <h1 id="mainTitle">Tooltips in MathJax</h1>
+
+            <p>
+                This page is a summary, expansion,
+                and working example of the
+                topic &lsquo;Labeling equation terms&rsquo;
+                from the
+                <a href="http://groups.google.com/group/mathjax-users/">MathJax Users Group</a>
+                in April 2011.
+                It includes solutions that were contributed
+                by Davide P. Cervone.
+            </p>
+
+            <p>
+                There is custom
+                MathJax configuration code in the head of
+                this document,  which is discussed below.
+            </p>
+
+            <p>
+                Note: Davide Cervone talks about tooltips in newer versions of MathJax
+                <a href="https://groups.google.com/g/mathjax-users/c/AYCXxlgkrcs?pli=1">at this page</a>.
+            </p>
+
+            <p>
+                There are four versions of tool tips:
+            </p>
+
+            <h2 class="secondLevelTitle">1. The Basic Tooltip</h2>
+
+            <p>
+                The first argument is the clickable part;
+                the second argument is the tooltip with
+                default math content.
+            </p>
+
+            <div class="syntax">\tooltip{#1}{#2}</div>
+
+            <h3 class="thirdLevelTitle">Example of the Basic Tooltip</h3>
+
+            <p style="font-family:monospace;">
+                \sum_{n=0}^\infty {\tooltip{x}{\text{converges for }|x|\lt 1 }}^n
+                = \frac{1}{1-x}
+            </p>
+
+            <p>
+                yields (hover over the &lsquo;$x$&rsquo;
+                in the expression $\,x^n\,$ below):
+            </p>
+
+            $$
+            \sum_{n=0}^\infty {\tooltip{x}{\text{converges for }|x|\lt 1}}^n = \frac{1}{1-x}
+            $$
+
+            <h2 class="secondLevelTitle">2. The Basic Tooltip with Color</h2>
+
+            <p>
+                The first argument is the clickable part,
+                identified by a chosen color;
+                the second argument is the tooltip
+                with default math content.
+            </p>
+
+            <p>Note: The color green is specified in the custom MathJax configuration code in the head of this document.</p>
+
+            <div class="syntax">\tooltipc{#1}{#2}</div>
+
+            <h3 class="thirdLevelTitle">Example of the Basic Tooltip with Color</h3>
+
+            <p style="font-family:monospace;">
+                \sum_{n=0}^\infty {\tooltipc{x}{\text{converges for }|x|\lt 1 }}^n = \frac{1}{1-x}
+            </p>
+
+            <p>
+                yields (hover over the green &lsquo;$x$&rsquo; below):
+            </p>
+            $$
+            \sum_{n=0}^\infty {\tooltipc{x}{\text{converges for }|x|\lt 1}}^n = \frac{1}{1-x}
+            $$
+
+            <h2 class="secondLevelTitle">3. A Text Tooltip</h2>
+
+            <p>
+                The first argument is the clickable part;
+                the second argument is the tooltip with default text content.
+            </p>
+
+            <div class="syntax">\texttip{#1}{#2}</div>
+
+            <p>
+                The second argument may contain mathematics, as long as the math
+                is included in the proper delimiters.
+            </p>
+
+            <h3 class="thirdLevelTitle">Example of a Text Tooltip</h3>
+
+            <p style="font-family:monospace;">
+                \texttip{a}{the first term is an \$a\$)} \texttip{+}{a binary operator} \texttip{b}{the second term}
+            </p>
+
+            <p>
+                yields (hover over each part of the expression below):
+            </p>
+
+            $$
+            \texttip{a}{the first term is an $a$} \texttip{+}{a binary operator} \texttip{b}{the second term}
+            $$
+
+            <h2 class="secondLevelTitle">4. A Text Tooltip with Color</h2>
+
+            <p>
+                The first argument is the clickable part,
+                identified by a chosen color;
+                the second argument is the tooltip with default text content.
+            </p>
+
+            <div class="syntax">\texttipc{#1}{#2}</div>
+
+            <p>
+                The second argument may contain mathematics, as long as the math
+                is included in the proper delimiters.
+            </p>
+
+            <h3 class="thirdLevelTitle">Example of a Text Tooltip with Color</h3>
+
+            <p style="font-family:monospace;">
+                \frac{\texttipc{a+b}{numerator}}{\texttipc{2}{denominator}}
+            </p>
+
+            <p>
+                yields (hover over each green part of the expression below):
+            </p>
+
+            $$
+            \frac{\texttipc{a+b}{numerator}}{\texttipc{2}{denominator}}
+            $$
+
+            <p>
+                Although this capability is not built into MathJax [2.7.1],
+                it is easy to obtain by following the
+                instructions on this page
+                (and using the source code of this page as an example).
+            </p>
+
+            <p>
+                STEP 1:
+                Include the following in the configuration
+                section of your document.
+                (View the source code of this page to see this in action.)
+            </p>
+
+<pre>
+MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
+  var TEX = MathJax.InputJax.TeX,
+    MML = MathJax.ElementJax.mml;
+  TEX.Definitions.macros.tooltip = "myToolTip";
+  TEX.Parse.Augment({
+    myToolTip: function (name) {
+      var arg = this.ParseArg(name), tip = this.ParseArg(name);
+      this.Push(MML.maction(arg,tip).With({actiontype: MML.ACTIONTYPE.TOOLTIP}));
+    }
+  });
+});  
+</pre>
+
+            <p>
+                STEP 2:
+                Include the following in <code>MathJax.Hub.Config</code>.
+                (Again, view the source code of this page to see this in action.)
+            </p>
+
+<pre>
+TeX: {
+  Macros: { 
+    tooltipc: ["\\tooltip{\\color{green}{#1}}{#2}",2],
+    texttip: ["\\tooltip{#1}{\\text{#2}}",2],
+    texttipc: ["\\tooltip{\\color{green}{#1}}{\\text{#2}}",2]
+  }
+}
+</pre>
+            You need only include the line(s) for the macros you wish to implement.<br />
+            You may change the color &lsquo;green&rsquo; to a desired color.
+
+        </main>
+
+</body>
+
+
+</html>
+
+
